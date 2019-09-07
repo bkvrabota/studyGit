@@ -7,31 +7,21 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
-    public GameObject LetterBlock;
-    public GameObject EmptyBlock;
-    public GameObject StartBlock;
-    public GameObject FinishBlock;
-    public GameObject CellBlock;
-    public int previousCellX;
-    public int previousCellY;
+    public GameObject LetterBlock, EmptyBlock, StartBlock, FinishBlock, CellBlock;
+    public int previousCellX, previousCellY;
     public bool afterCheck = false;
-    public Text Score;
-    public Text CheckRes;
+    public Text Score, CheckRes;
     public LetterPanel letterPanel;
     public List<TextAsset> confLVL;
     public GameObject FWindow;
     public int fieldSize;
     public FingerMove fingerMove;
     public GameObject BackButton;
-    int cellx;
-    int celly;
+    int cellx, celly;
     private List<List<GameObject>> words;
     private const int FIELD_SIZE = 50;
     private List<List<char>> rawConf;    
-    private int iS;
-    private int kS;
-    private int iF;
-    private int kF;
+    private int iS, kS, iF, kF;
     private List<GameObject> wordsCheckedTrue = new List<GameObject>();
     private List<GameObject> wordsCheckedClick = new List<GameObject>();
     private int? cellxFirst = null;
