@@ -16,6 +16,14 @@ namespace testAppDV
     {
         SqlConnection sqlConnection;
 
+        private string columnId = "Id";
+        private string columnName = "Name";
+        private string columnDate = "Date";
+        private string columnAddressee = "Addressee";
+        private string columnSender = "Sender";
+        private string columnTags = "Tags";
+        private string columnContent = "Content";
+
         public Form1()
         {
             InitializeComponent();
@@ -39,13 +47,13 @@ namespace testAppDV
                 this.testLettersDVTableAdapter.Fill(this.databaseDVtestDataSet.testLettersDV);
                 while (await sqlReader.ReadAsync())
                 {
-                    listBox1.Items.Add(Convert.ToString(sqlReader["Id"]) + "    " +
-                                        Convert.ToString(sqlReader["Name"]) + "    " +
-                                        Convert.ToString(sqlReader["Date"]) + "    " +
-                                        Convert.ToString(sqlReader["Addressee"]) + "     " +
-                                        Convert.ToString(sqlReader["Sender"]) + "     " +
-                                        Convert.ToString(sqlReader["Tags"]) + "    " +
-                                        Convert.ToString(sqlReader["Content"]));
+                    listBox1.Items.Add(Convert.ToString(sqlReader[columnId]) + "    " +
+                                        Convert.ToString(sqlReader[columnName]) + "    " +
+                                        Convert.ToString(sqlReader[columnDate]) + "    " +
+                                        Convert.ToString(sqlReader[columnAddressee]) + "     " +
+                                        Convert.ToString(sqlReader[columnSender]) + "     " +
+                                        Convert.ToString(sqlReader[columnTags]) + "    " +
+                                        Convert.ToString(sqlReader[columnContent]));
                 }
             }
             catch (Exception ex)
@@ -59,7 +67,7 @@ namespace testAppDV
             }
         }
 
-        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (sqlConnection != null && sqlConnection.State != ConnectionState.Closed)
                 sqlConnection.Close();
@@ -69,7 +77,7 @@ namespace testAppDV
         {
             if (sqlConnection != null && sqlConnection.State != ConnectionState.Closed)
                 sqlConnection.Close();
-        }
+        }        
 
         private async void button1_Click(object sender, EventArgs e)
         {
@@ -79,29 +87,24 @@ namespace testAppDV
                 label16.Visible = false;
             var dateReg = TextIsDate(textBox2.Text);
 
-            if (!string.IsNullOrEmpty(textBox1.Text) && !string.IsNullOrWhiteSpace(textBox1.Text) &&
-                !string.IsNullOrEmpty(textBox2.Text) && !string.IsNullOrWhiteSpace(textBox2.Text) &&
-                !string.IsNullOrEmpty(textBox3.Text) && !string.IsNullOrWhiteSpace(textBox3.Text) &&
-                !string.IsNullOrEmpty(textBox4.Text) && !string.IsNullOrWhiteSpace(textBox4.Text) &&
-                !string.IsNullOrEmpty(textBox5.Text) && !string.IsNullOrWhiteSpace(textBox5.Text) &&
-                !string.IsNullOrEmpty(textBox6.Text) && !string.IsNullOrWhiteSpace(textBox6.Text) &&
-                dateReg)
+            if (CheckBoxNull(textBox1.Text) && CheckBoxNull(textBox2.Text) && CheckBoxNull(textBox3.Text) && CheckBoxNull(textBox4.Text) && 
+                CheckBoxNull(textBox5.Text) && CheckBoxNull(textBox6.Text) && dateReg)
             {
                 SqlCommand command = new SqlCommand("INSERT INTO [testLettersDV] (Name, Date, Addressee, Sender, Tags, Content)VALUES(@Name, @Date, @Addressee, @Sender, @Tags, @Content)", sqlConnection);
 
-                command.Parameters.AddWithValue("Name", textBox1.Text);
-                command.Parameters.AddWithValue("Date", textBox2.Text);
-                command.Parameters.AddWithValue("Addressee", textBox3.Text);
-                command.Parameters.AddWithValue("Sender", textBox4.Text);
-                command.Parameters.AddWithValue("Tags", textBox5.Text);
-                command.Parameters.AddWithValue("Content", textBox6.Text);
+                command.Parameters.AddWithValue(columnName, textBox1.Text);
+                command.Parameters.AddWithValue(columnDate, textBox2.Text);
+                command.Parameters.AddWithValue(columnAddressee, textBox3.Text);
+                command.Parameters.AddWithValue(columnSender, textBox4.Text);
+                command.Parameters.AddWithValue(columnTags, textBox5.Text);
+                command.Parameters.AddWithValue(columnContent, textBox6.Text);
 
-                textBox1.Text = null;
-                textBox2.Text = null;
-                textBox3.Text = null;
-                textBox4.Text = null;
-                textBox5.Text = null;
-                textBox6.Text = null;
+                textBox1.Text = "";
+                textBox2.Text = "";
+                textBox3.Text = "";
+                textBox4.Text = "";
+                textBox5.Text = "";
+                textBox6.Text = "";
 
                 await command.ExecuteNonQueryAsync();
             } else
@@ -111,13 +114,13 @@ namespace testAppDV
                 if (!dateReg)
                 {
                     label16.Visible = true;
-                    label16.Text = "Дата регистрации должна быть в формате yyyy - MM - dd!";
+                    label16.Text = "Форматы даты: yyyy-MM-dd, dd.MM.yyyy, dd/MM/yyyy!";
                 }
             }          
             
         }
 
-        private async void обновитьToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void renewlistToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listBox1.Items.Clear();
 
@@ -131,13 +134,13 @@ namespace testAppDV
                 
                 while (await sqlReader.ReadAsync())
                 {
-                    listBox1.Items.Add(Convert.ToString(sqlReader["Id"]) + "    " +
-                                        Convert.ToString(sqlReader["Name"]) + "    " +
-                                        Convert.ToString(sqlReader["Date"]) + "    " +
-                                        Convert.ToString(sqlReader["Addressee"]) + "     " +
-                                        Convert.ToString(sqlReader["Sender"]) + "     " +
-                                        Convert.ToString(sqlReader["Tags"]) + "    " +
-                                        Convert.ToString(sqlReader["Content"]));
+                    listBox1.Items.Add(Convert.ToString(sqlReader[columnId]) + "    " +
+                                        Convert.ToString(sqlReader[columnName]) + "    " +
+                                        Convert.ToString(sqlReader[columnDate]) + "    " +
+                                        Convert.ToString(sqlReader[columnAddressee]) + "     " +
+                                        Convert.ToString(sqlReader[columnSender]) + "     " +
+                                        Convert.ToString(sqlReader[columnTags]) + "    " +
+                                        Convert.ToString(sqlReader[columnContent]));
                 }
             }
             catch (Exception ex)
@@ -149,18 +152,7 @@ namespace testAppDV
                 if (sqlReader != null)
                     sqlReader.Close();
             }
-        }
-
-        static bool TextIsDate(string text)
-        {
-            var dateFormat = "yyyy-MM-dd";
-            DateTime scheduleDate;
-            if (DateTime.TryParseExact(text, dateFormat, DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None, out scheduleDate))
-            {
-                return true;
-            }
-            return false;
-        }
+        }        
 
         private async void button2_Click(object sender, EventArgs e)
         {
@@ -170,35 +162,30 @@ namespace testAppDV
                 label18.Visible = false;
             var dateReg = TextIsDate(textBox11.Text);            
 
-            if (!string.IsNullOrEmpty(textBox7.Text) && !string.IsNullOrWhiteSpace(textBox7.Text) &&
-                !string.IsNullOrEmpty(textBox8.Text) && !string.IsNullOrWhiteSpace(textBox8.Text) &&
-                !string.IsNullOrEmpty(textBox9.Text) && !string.IsNullOrWhiteSpace(textBox9.Text) &&
-                !string.IsNullOrEmpty(textBox10.Text) && !string.IsNullOrWhiteSpace(textBox10.Text) &&
-                !string.IsNullOrEmpty(textBox11.Text) && !string.IsNullOrWhiteSpace(textBox11.Text) &&
-                !string.IsNullOrEmpty(textBox12.Text) && !string.IsNullOrWhiteSpace(textBox12.Text) &&
-                dateReg)
+            if (CheckBoxNull(textBox7.Text) && CheckBoxNull(textBox8.Text) && CheckBoxNull(textBox9.Text) && CheckBoxNull(textBox10.Text) &&
+                CheckBoxNull(textBox11.Text) && CheckBoxNull(textBox12.Text) && dateReg)
             {
                 SqlCommand command = new SqlCommand("UPDATE [testLettersDV] SET [Name]=@Name, [Date]=@Date, [Addressee]=@Addressee, [Sender]=@Sender, [Tags]=@Tags, [Content]=@Content WHERE [Id]=@Id", sqlConnection);
 
-                command.Parameters.AddWithValue("Id", textBox13.Text);
-                command.Parameters.AddWithValue("Name", textBox12.Text);
-                command.Parameters.AddWithValue("Date", textBox11.Text);
-                command.Parameters.AddWithValue("Addressee", textBox10.Text);
-                command.Parameters.AddWithValue("Sender", textBox9.Text);
-                command.Parameters.AddWithValue("Tags", textBox8.Text);
-                command.Parameters.AddWithValue("Content", textBox7.Text);
+                command.Parameters.AddWithValue(columnId, textBox13.Text);
+                command.Parameters.AddWithValue(columnName, textBox12.Text);
+                command.Parameters.AddWithValue(columnDate, textBox11.Text);
+                command.Parameters.AddWithValue(columnAddressee, textBox10.Text);
+                command.Parameters.AddWithValue(columnSender, textBox9.Text);
+                command.Parameters.AddWithValue(columnTags, textBox8.Text);
+                command.Parameters.AddWithValue(columnContent, textBox7.Text);
 
-                textBox12.Text = null;
-                textBox11.Text = null;
-                textBox10.Text = null;
-                textBox9.Text = null;
-                textBox8.Text = null;
-                textBox7.Text = null;
-                textBox13.Text = null;
+                textBox12.Text = "";
+                textBox11.Text = "";
+                textBox10.Text = "";
+                textBox9.Text = "";
+                textBox8.Text = "";
+                textBox7.Text = "";
+                textBox13.Text = "";
 
                 await command.ExecuteNonQueryAsync();
 
-            } else if (string.IsNullOrEmpty(textBox13.Text) && string.IsNullOrWhiteSpace(textBox13.Text))
+            } else if (!CheckBoxNull(textBox13.Text) && CheckId(textBox13.Text))
             {
                 label17.Visible = true;
                 label17.Text = "Укажите ID письма!";
@@ -209,7 +196,7 @@ namespace testAppDV
                 if (!dateReg)
                 {
                     label18.Visible = true;
-                    label18.Text = "Дата регистрации должна быть в формате yyyy - MM - dd!";
+                    label18.Text = "Форматы даты: yyyy-MM-dd, dd.MM.yyyy, dd/MM/yyyy!";
                 }
             }
         }
@@ -219,11 +206,11 @@ namespace testAppDV
             if (label19.Visible)
                 label19.Visible = false;
 
-            if (!string.IsNullOrEmpty(textBox14.Text) && !string.IsNullOrWhiteSpace(textBox14.Text))
+            if (CheckBoxNull(textBox14.Text))
             {
                 SqlCommand command = new SqlCommand("DELETE FROM [testLettersDV] WHERE [Id]=@Id", sqlConnection);
 
-                command.Parameters.AddWithValue("Id", textBox14.Text);
+                command.Parameters.AddWithValue(columnId, textBox14.Text);
 
                 textBox14.Text = null;
 
@@ -241,11 +228,11 @@ namespace testAppDV
             if (label17.Visible)
                 label17.Visible = false;
 
-            if (!string.IsNullOrEmpty(textBox13.Text) && !string.IsNullOrWhiteSpace(textBox13.Text))
+            if (CheckBoxNull(textBox13.Text) && CheckId(textBox13.Text))
             {
                 SqlCommand command = new SqlCommand("SELECT * FROM [testLettersDV] WHERE [Id]=@Id", sqlConnection);
 
-                command.Parameters.AddWithValue("Id", textBox13.Text);
+                command.Parameters.AddWithValue(columnId, textBox13.Text);
 
                 SqlDataReader sqlReader = null;
 
@@ -254,12 +241,12 @@ namespace testAppDV
                 {                    
                     while (await sqlReader.ReadAsync())
                     {
-                        textBox12.Text = Convert.ToString(sqlReader["Name"]);
-                        textBox11.Text = Convert.ToString(sqlReader["Date"]);
-                        textBox10.Text = Convert.ToString(sqlReader["Addressee"]);
-                        textBox9.Text = Convert.ToString(sqlReader["Sender"]);
-                        textBox8.Text = Convert.ToString(sqlReader["Tags"]);
-                        textBox7.Text = Convert.ToString(sqlReader["Content"]);
+                        textBox12.Text = Convert.ToString(sqlReader[columnName]);
+                        textBox11.Text = Convert.ToString(sqlReader[columnDate]);
+                        textBox10.Text = Convert.ToString(sqlReader[columnAddressee]);
+                        textBox9.Text = Convert.ToString(sqlReader[columnSender]);
+                        textBox8.Text = Convert.ToString(sqlReader[columnTags]);
+                        textBox7.Text = Convert.ToString(sqlReader[columnContent]);
                     }
                 }
                 catch (Exception ex)
@@ -279,6 +266,40 @@ namespace testAppDV
                 label17.Visible = true;
                 label17.Text = "Укажите ID письма!";
             }
+        }
+
+        private bool CheckBoxNull(string textBox)
+        {
+            if (!string.IsNullOrEmpty(textBox) && !string.IsNullOrWhiteSpace(textBox))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool CheckId(string id)
+        {
+            int i;
+            if (int.TryParse(id, out i))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        static bool TextIsDate(string text)
+        {
+            var dateFormat1 = "yyyy-MM-dd";
+            var dateFormat2 = "dd.MM.yyyy";
+            var dateFormat3 = "dd/MM/yyyy";
+            DateTime scheduleDate;
+            if (DateTime.TryParseExact(text, dateFormat1, DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None, out scheduleDate) ||
+                DateTime.TryParseExact(text, dateFormat2, DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None, out scheduleDate) ||
+                DateTime.TryParseExact(text, dateFormat3, DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None, out scheduleDate))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
