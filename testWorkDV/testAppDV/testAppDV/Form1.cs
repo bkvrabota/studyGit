@@ -206,7 +206,7 @@ namespace testAppDV
             if (label19.Visible)
                 label19.Visible = false;
 
-            if (CheckBoxNull(textBox14.Text))
+            if (CheckBoxNull(textBox14.Text) && CheckId(textBox14.Text))
             {
                 SqlCommand command = new SqlCommand("DELETE FROM [testLettersDV] WHERE [Id]=@Id", sqlConnection);
 
