@@ -28,6 +28,7 @@ public class test_1 {
         }
     }
 
+    // Является ли строка целым числом:
     private static boolean isInteger(String s) throws NumberFormatException {
         try {
             Integer.parseInt(s);
@@ -37,6 +38,7 @@ public class test_1 {
         }
     }
 
+    // Является ли число четным:
     private static boolean isEven(int n) {
         if (n % 2 == 0) {
             return true;
@@ -44,6 +46,7 @@ public class test_1 {
         return false;
     }
 
+    // Является ли число составным:
     private static boolean isComposite(int n) {
         int i;
         for (i = 2; i < n; i++) {

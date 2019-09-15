@@ -4,12 +4,12 @@ public class Items {
 
     private String name;
     private int weight;
-    private int value;
+    private int price;
 
-    public Items(String name, int weight, int value){
+    public Items(String name, int weight, int price){
         this.name = name;
         this.weight = weight;
-        this.value = value;
+        this.price = price;
     }
 
     public String getName() {
@@ -20,7 +20,7 @@ public class Items {
         return weight;
     }
 
-    public int getValue() {
-        return value;
+    public int getPrice() {
+        return price;
     }
 }

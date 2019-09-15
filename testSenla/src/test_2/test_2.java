@@ -30,6 +30,7 @@ public class test_2 {
 
     }
 
+    // Является ли строка целым числом:
     private static boolean isInteger(String s) throws NumberFormatException {
         try {
             Integer.parseInt(s);
@@ -39,6 +40,7 @@ public class test_2 {
         }
     }
 
+    // Наибольший общий делитель:
     private static int NOD(int a, int b) {
         while (a != b) {
             if (a > b) {
@@ -50,6 +52,7 @@ public class test_2 {
         return a;
     }
 
+    // Наименьшее общее кратное:
     private  static void NOK(int a, int b, int c) {
         int d = a * (b / c);
 

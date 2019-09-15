@@ -6,40 +6,106 @@ package test_6;
 Цель задачи заполнить рюкзак не превысив его грузоподъемность и
 максимизировать суммарную ценность груза. */
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class Backpack {
 
-    // Максимальная вместимость рюкзака:
-    static final int MAX_WEIGHT = 100;
+    private static ArrayList<Items[]> items = new ArrayList<Items[]>();
+    private static final int MAX_WEIGHT = 100;
 
-    // Набор вещей, которые необходимо поместить в рюказак:
-    static Items[] items = {
-            new Items("item_1",25, 30),
-            new Items("item_2",100, 90),
-            new Items("item_3",50, 100),
-            new Items("item_4",70, 150),
-            new Items("item_5",40, 80)
-    };
+    private static ArrayList<Items[]> bestItems = null;
+    private static int bestPrice;
 
     public static void main(String[] args) {
-            // Выводим общую стоимость вещей уложенных в рюкзак:
-            System.out.println("Стоимость вещей в рюкзаке: " + fillBackpack(items.length - 1, MAX_WEIGHT));
+        AllItems();
+
+        if (items.size() == 0) {
+            System.out.println("Вещи отсутствуют. Добавьте список вещей.");
+        } else if (!CheckWeight()) {
+            System.out.println("Нет вещей с допустимой массой.");
+        } else {
+            MakeAllSets(items);
+            GetBestSet();
+        }
     }
 
-    private static int fillBackpack(int i, int weigth) {
-        if (i < 0) {
-            return 0;
+    // Набор вещей, которые возможно поместить в рюказак:
+    private static void AllItems() {
+        items.add(new Items[] {new Items("item_1",125, 30)});
+        items.add(new Items[] {new Items("item_2",100, 90)});
+        items.add(new Items[] {new Items("item_3",50, 100)});
+        items.add(new Items[] {new Items("item_4",70, 150)});
+        items.add(new Items[] {new Items("item_5",40, 80)});
+    }
+
+    // Проверка на наличие вещей допустимой массы:
+    private static boolean CheckWeight() {
+        for (Items[] item : items) {
+            if (item[0].getWeight() <= MAX_WEIGHT) {
+                return true;
+            }
         }
-        if (items[i].getWeight() > weigth) {
-            return fillBackpack(i-1, weigth);
+        return false;
+    }
+
+    //Общий вес всех вещей:
+    private static int CalcWeigth(ArrayList<Items[]> items)
+    {
+        int sumWeight = 0;
+
+        for (Items[] item : items) {
+            sumWeight += item[0].getWeight();
+        }
+        return sumWeight;
+    }
+
+    //Общая стоимость всех вещей:
+    private static int CalcPrice(ArrayList<Items[]> items)
+    {
+        int sumPrice = 0;
+
+        for (Items[] item : items) {
+            sumPrice += item[0].getPrice();
+        }
+        return sumPrice;
+    }
+
+    //Является ли текущий набор вещей оптимальным:
+    private static void CheckSet(ArrayList<Items[]> items)
+    {
+        if (bestItems == null) {
+            if (CalcWeigth(items) <= MAX_WEIGHT) {
+                bestItems = items;
+                bestPrice = CalcPrice(items);
+            }
         }
         else {
-            //System.out.println(items[i].getName());
-            return Math.max(fillBackpack(i-1, weigth),
-                    fillBackpack(i-1, weigth - items[i].getWeight()) + items[i].getValue());
+            if(CalcWeigth(items) <= MAX_WEIGHT && CalcPrice(items) > bestPrice) {
+                bestItems = items;
+                bestPrice = CalcPrice(items);
+            }
         }
     }
 
+    //Перебор вариантов:
+    private static void MakeAllSets(ArrayList<Items[]> items) {
+        if (items.size() > 0)
+            CheckSet(items);
+        for (int i = 0; i < items.size(); i++) {
+            ArrayList<Items[]> newSet = new ArrayList<Items[]>(items);
+            newSet.remove(i);
+            MakeAllSets(newSet);
+        }
+    }
 
+    // Вывод результата:
+    private static void GetBestSet() {
+        System.out.println("Максимальная вместимость рюкзака: " + MAX_WEIGHT);
+        System.out.println("Список вещей уложенных в рюкзак: ");
+        for (Items[] bestItem : bestItems) {
+            System.out.println("Наименование: " + bestItem[0].getName() +
+                    ", Вес предмета: " + bestItem[0].getWeight());
+        }
+        System.out.println("Суммарная стоимость вещей в рюкзаке: " +  bestPrice);
+    }
 }
