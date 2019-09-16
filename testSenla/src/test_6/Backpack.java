@@ -9,7 +9,7 @@ class Backpack {
     private ArrayList<Items> bestItems = null;
     private int bestPrice;
 
-    Backpack(ArrayList<Items> items, int MAX_WEIGHT) {
+    Backpack(int MAX_WEIGHT) {
         this.MAX_WEIGHT = MAX_WEIGHT;
     }
 

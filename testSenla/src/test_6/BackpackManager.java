@@ -15,7 +15,7 @@ public class BackpackManager {
 
     public static void main(String[] args) {
 
-        Backpack backpack = new Backpack(items, MAX_WEIGHT);
+        Backpack backpack = new Backpack(MAX_WEIGHT);
 
         allItems();
         for (Items item : items) {
@@ -26,7 +26,7 @@ public class BackpackManager {
 
     // Набор вещей, которые возможно поместить в рюказак:
     private static void allItems() {
-        items.add(new Items ("item_1",25, 300));
+        items.add(new Items ("item_1",25, 30));
         items.add(new Items ("item_2",100, 90));
         items.add(new Items ("item_3",50, 100));
         items.add(new Items ("item_4",70, 150));
