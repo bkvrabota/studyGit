@@ -16,12 +16,12 @@ public class test_4 {
     private static String word;
 
     public static void main(String[] args) throws IOException {
-        Input();
-        FixText();
-        WordFind();
+        isInput();
+        fixText();
+        wordFind();
     }
 
-    private static void Input() throws IOException {
+    private static void isInput() throws IOException {
         // Ввод текста:
         System.out.print("Введите текст: ");
         BufferedReader readerText = new BufferedReader(new InputStreamReader(System.in));
@@ -33,7 +33,7 @@ public class test_4 {
         word = readerWord.readLine();
     }
 
-    private static void FixText() {
+    private static void fixText() {
         // Удалить все символы кроме букв и пробелов:
         String wrongSymbols = "1234567890!@#$%^&*()_+!№;%:?*/,.";
         for (char c : wrongSymbols.toCharArray()) {
@@ -53,7 +53,7 @@ public class test_4 {
         word = word.toLowerCase();
     }
 
-    private static void WordFind() {
+    private static void wordFind() {
         // Поиск искомого слова в тексте:
         for (String s : list) {
             if (word.equals(s)) {

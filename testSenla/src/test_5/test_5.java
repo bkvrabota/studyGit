@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
 public class test_5 {
 
     public static void main(String[] args) throws IOException {
-        isPalindrom(Input());
+        isPalindrom(isInput());
     }
 
     // Проверка на палиндром:
@@ -31,7 +31,7 @@ public class test_5 {
     }
 
     // Ввод числа:
-    private static int Input() throws IOException {
+    private static int isInput() throws IOException {
         // Ввод текста:
         System.out.print("Введите длину последовательности (не более 100): ");
         BufferedReader readerText = new BufferedReader(new InputStreamReader(System.in));
