@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class BackpackManager {
 
-    private static ArrayList<Items> items = new ArrayList<Items>();
+    private static ArrayList<Item> items = new ArrayList<Item>();
     private static final int MAX_WEIGHT = 100;
 
     public static void main(String[] args) {
@@ -18,7 +18,7 @@ public class BackpackManager {
         Backpack backpack = new Backpack(MAX_WEIGHT);
 
         allItems();
-        for (Items item : items) {
+        for (Item item : items) {
             backpack.putItem(item);
         }
         backpack.showItems();
@@ -26,10 +26,10 @@ public class BackpackManager {
 
     // Набор вещей, которые возможно поместить в рюказак:
     private static void allItems() {
-        items.add(new Items ("item_1",25, 30));
-        items.add(new Items ("item_2",100, 90));
-        items.add(new Items ("item_3",50, 100));
-        items.add(new Items ("item_4",70, 150));
-        items.add(new Items ("item_5",40, 80));
+        items.add(new Item("item_1",25, 30));
+        items.add(new Item("item_2",100, 90));
+        items.add(new Item("item_3",50, 100));
+        items.add(new Item("item_4",70, 150));
+        items.add(new Item("item_5",40, 80));
     }
 }
