@@ -14,7 +14,7 @@
     } else {
       viewCount += 1;
     }
-    application.setAttribute("hitCounter", hitsCount);
+    application.setAttribute("hitCounter", viewCount);
   %>
 
   <p>Page views: <%= viewCount%></p>
